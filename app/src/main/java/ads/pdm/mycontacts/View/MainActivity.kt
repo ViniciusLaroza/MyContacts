@@ -1,5 +1,6 @@
 package ads.pdm.mycontacts.View
 
+import ads.pdm.mycontacts.Adapter.ContactAdapter
 import ads.pdm.mycontacts.Model.Constant.EXTRA_CONTACT
 import ads.pdm.mycontacts.Model.Contact
 import ads.pdm.mycontacts.R
@@ -23,13 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val contactList: MutableList<Contact> = mutableListOf()
 
     //Adapter
-    private val contactAdapter: ArrayAdapter<String> by lazy {
-        ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            contactList.map { it.toString() }
-        )
-    }
+    private val contactAdapter = ContactAdapter(this, contactList)
 
     private lateinit var carl: ActivityResultLauncher<Intent>
 
@@ -49,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                 contact?.let {
                     _contact->
                     contactList.add(_contact)
-                    contactAdapter.add(_contact.toString())
                     contactAdapter.notifyDataSetChanged()
                 }
             }
