@@ -10,12 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import org.w3c.dom.Text
 
 class ContactAdapter(
     context: Context,
     val contactList: MutableList<Contact>
 ): ArrayAdapter<Contact>(context, R.layout.tile_contact, contactList) {
 
+    private data class TileContactHolder(val nameTv: TextView, val emailTv: TextView)
     private lateinit var tcb: TileContactBinding
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -30,9 +32,14 @@ class ContactAdapter(
                 false
             )
             contactTileView = tcb.root
+            val tileContactHolder = TileContactHolder(tcb.nameTv, tcb.emailTv)
+            contactTileView.tag = tileContactHolder
         }
-        tcb.nameTv.text = contact.name
-        tcb.emailTv.text = contact.email
+        with(contactTileView.tag as TileContactHolder){
+            tcb.nameTv.text = contact.name
+            tcb.emailTv.text = contact.email
+        }
+
         return contactTileView
     }
 }
